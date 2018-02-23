@@ -10,6 +10,7 @@ vec3 lightDir;
 void setup() {
   a.begin();
   a.clear();
+  Serial.begin(9600);
   
   x = 0;
   y = 0;
@@ -26,7 +27,10 @@ bool shadow(vec3 pos, vec3 dir) {
 }
 
 void loop() {
-  if(y > 63) return;
+  if(y > 63) {
+    Serial.write(a.getBuffer(), 128 * 64 / 8);
+    return;
+  }
   
   pos = vec3(0, 0, -2);
   dir = vec3(x / 128., y / 64., 1.);
