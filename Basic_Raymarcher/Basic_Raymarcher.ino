@@ -20,7 +20,7 @@ void setup() {
 
 bool shadow(vec3 pos, vec3 dir) {
   for(int i = 0; i < 16; i++) { // Limit our steps to 16 (Probably could go with 8)
-    float dist = pos.magnitude() - 1.; // Find distance to sphere. It's at the origin, so we can just get the length of the position vector and subtract the sphere radius
+    SQ15x16 dist = pos.magnitude() - 1.; // Find distance to sphere. It's at the origin, so we can just get the length of the position vector and subtract the sphere radius
     if(dist < 0.01) return true; // If we have hit the sphere, then we should have a shadow
     pos = pos + (dir * dist); // Move the ray
   }
@@ -43,12 +43,12 @@ void loop() {
 
   a.drawPixel(x, y, 0); // Clear the current pixel
   for(int i = 0; i < 16; i++) { // Limit our steps to 16
-    float dist_sphere = pos.magnitude() - 1.; // Find distance to sphere. It's at the origin, so we can just get the length of the position vector and subtract the sphere radius
-    float dist_plane  = -pos.y + 1.; // Find the distance to the ground. Negative y is up
+    SQ15x16 dist_sphere = pos.magnitude() - 1.; // Find distance to sphere. It's at the origin, so we can just get the length of the position vector and subtract the sphere radius
+    SQ15x16 dist_plane  = -pos.y + 1.; // Find the distance to the ground. Negative y is up
 
-    // Finds the object that is closest and sets the bool and float accordingly
+    // Finds the object that is closest and sets the bool and SQ15x16 accordingly
     bool isFloor = dist_plane < dist_sphere;
-    float dist = isFloor ? dist_plane : dist_sphere;
+    SQ15x16 dist = isFloor ? dist_plane : dist_sphere;
     
     pos = pos + (dir * dist); // Move the ray
     if(dist < 0.01) { // If the ray hit something
@@ -63,7 +63,7 @@ void loop() {
         }
       } else {
         // Sphere
-        float diffuse = pos.dot(lightDir); // Since the sphere is radius 1, we can use the position as the sphere's normal. Diffuse will have a value of -1 (facing oposite the light) to 1 (facing the light)
+        SQ15x16 diffuse = pos.dot(lightDir); // Since the sphere is radius 1, we can use the position as the sphere's normal. Diffuse will have a value of -1 (facing oposite the light) to 1 (facing the light)
         if(diffuse > 0.5 || (diffuse > 0.0 && ((x % 2) ^ (y % 2)))) // 0.5 - 1.0 we shade solid white, 0.0 - 0.5 we shade in a checkerboard pattern
           a.drawPixel(x, y, 1);
       }

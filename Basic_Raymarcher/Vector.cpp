@@ -7,29 +7,29 @@ vec3::vec3(){
   z = 0;
 }
 
-vec3::vec3(float n) {
+vec3::vec3(SQ15x16 n) {
   x = n;
   y = n;
   z = n;
 }
 
-vec3::vec3(float ax, float ay, float az) {
+vec3::vec3(SQ15x16 ax, SQ15x16 ay, SQ15x16 az) {
   x = ax;
   y = ay;
   z = az;
 }
 
 
-float vec3::magnitude() {
-  return sqrt(this->dot(*this));
+SQ15x16 vec3::magnitude() {
+  return sqrt((double)this->dot(*this));
 }
 
 vec3 vec3::normalize() {
-  float m = 1 / this->magnitude();
+  SQ15x16 m = 1 / this->magnitude();
   return *this * m;
 }
 
-float vec3::dot(vec3 v) {
+SQ15x16 vec3::dot(vec3 v) {
   return this->x*v.x + this->y*v.y + this->z*v.z;
 }
 
@@ -42,7 +42,7 @@ vec3 vec3::operator*(const vec3& v) {
   return vec3(this->x * v.x, this->y * v.y, this->z * v.z);
 }
 
-vec3 vec3::operator*(const float& f) {
+vec3 vec3::operator*(const SQ15x16& f) {
   return vec3(this->x * f, this->y * f, this->z * f);
 }
 

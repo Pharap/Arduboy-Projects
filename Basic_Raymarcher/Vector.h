@@ -1,21 +1,24 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <FixedPoints.h>
+#include <FixedPointsCommon.h>
+
 class vec3 {
 public:
-  float x, y, z;
+  SQ15x16 x, y, z;
   
   vec3();
-  vec3(float);
-  vec3(float, float, float);
+  vec3(SQ15x16);
+  vec3(SQ15x16, SQ15x16, SQ15x16);
 
-  float magnitude();
+  SQ15x16 magnitude();
   vec3 normalize();
-  float dot(vec3);
+  SQ15x16 dot(vec3);
 
   vec3 operator+(const vec3&);
   vec3 operator*(const vec3&);
-  vec3 operator*(const float&);
+  vec3 operator*(const SQ15x16&);
 };
 
 #endif
